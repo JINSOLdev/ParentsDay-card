@@ -1,0 +1,532 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Pretendard", "Apple SD Gothic Neo", sans-serif;
+    background: linear-gradient(180deg, #fff8fa 0%, #ffeef3 100%);
+    color: #5f4548;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    min-height: 100vh;
+    padding: 24px 16px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.title-area {
+    text-align: center;
+    margin-top: 16px;
+    margin-bottom: 0;
+}
+
+.sub-title {
+    margin: 0 0 8px;
+    color: #e97786;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+h1 {
+    margin: 0;
+    color: #ef7f8e;
+    font-size: clamp(24px, 4vw, 34px);
+    letter-spacing: 1px;
+}
+
+/* 전체 카드/봉투 무대 */
+.card-scene {
+    position: relative;
+    width: min(480px, 92vw);
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 봉투 전체 */
+.envelope {
+    position: relative;
+    width: 340px;
+    height: 210px;
+    margin-top: 55px;
+    cursor: pointer;
+    perspective: 1200px;
+}
+
+/* 봉투 뒷면 */
+.envelope-back {
+    position: absolute;
+    inset: 0;
+    background: #f9a6b3;
+    border-radius: 14px;
+    box-shadow: 0 18px 40px rgba(239, 127, 142, 0.25);
+    z-index: 1;
+}
+
+/* 카드 */
+.letter-card {
+    position: absolute;
+    left: 50%;
+    bottom: 28px;
+    width: 280px;
+    height: 330px;
+    transform: translateX(-50%) translateY(100px) scale(0.82);
+    opacity: 0;
+    z-index: 2;
+    perspective: 1200px;
+    transition:
+        transform 1.1s ease,
+        opacity 0.6s ease,
+        z-index 0s linear 0.8s;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 1s ease;
+    transform-style: preserve-3d;
+}
+
+.card-face {
+    position: absolute;
+    inset: 0;
+    border-radius: 18px;
+    backface-visibility: hidden;
+    overflow: hidden;
+    box-shadow: 0 16px 34px rgba(95, 69, 72, 0.2);
+}
+
+.card-front {
+    background: #fff;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 카드 뒷면 */
+.card-back {
+    padding: 22px 20px;
+    background:
+        radial-gradient(circle at top left, rgba(255, 216, 224, 0.8), transparent 34%),
+        #fffdfd;
+    border: 2px solid #ffd2da;
+    transform: rotateY(180deg);
+}
+
+.to {
+    margin: 0 0 12px;
+    color: #e97786;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.message {
+    min-height: 180px;
+    margin: 0;
+    white-space: pre-line;
+    line-height: 1.6;
+    font-size: 14px;
+    color: #5f4548;
+}
+
+.from {
+    margin: 25px 0 0;
+    text-align: right;
+    color: #9b7478;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.7s ease;
+}
+
+.from.show {
+    opacity: 1;
+}
+
+/* 봉투 앞쪽 */
+.envelope-left,
+.envelope-right,
+.envelope-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    z-index: 4;
+}
+
+.envelope-left {
+left: 0;
+    border-top: 105px solid transparent;
+    border-bottom: 105px solid transparent;
+border-left: 170px solid #ffc5cf;
+}
+
+.envelope-right {
+    right: 0;
+    border-top: 105px solid transparent;
+    border-bottom: 105px solid transparent;
+    border-right: 170px solid #ffc5cf;
+}
+
+.envelope-bottom {
+    left: 0;
+    border-left: 170px solid transparent;
+    border-right: 170px solid transparent;
+    border-bottom: 125px solid #ffb3bf;
+}
+
+/* 봉투 덮개 */
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 340px;
+    height: 120px;
+    background: #ff9dad;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top;
+    transition: transform 0.8s ease;
+    z-index: 5;
+}
+
+/* 봉투가 열렸을 때 */
+.envelope.open .envelope-flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+/* 카드가 봉투에서 올라올 때 */
+.envelope.open .letter-card {
+    opacity: 1;
+    z-index: 6;
+
+    /* 기존 -260px은 너무 많이 올라가서 잘림. -70px로 조정 */
+    transform: translateX(-50%) translateY(-35px) scale(1);
+}
+
+/* 카드가 올라온 뒤 뒤집힘 */
+.envelope.open .letter-card.flip .card-inner {
+    transform: rotateY(180deg);
+}
+
+/* 버튼 컨테이너 */
+.button-container {
+    display: flex;
+    gap: 12px;
+    margin-top: 36px;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 버튼 */
+.open-button,
+.reset-button {
+    padding: 13px 28px;
+    border: none;
+    border-radius: 999px;
+    background: #ef7f8e;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 22px rgba(239, 127, 142, 0.3);
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+.open-button:hover,
+.reset-button:hover {
+    transform: translateY(-2px);
+    background: #e86f80;
+}
+
+.reset-button {
+    background: #9b7478;
+    box-shadow: 0 10px 22px rgba(155, 116, 120, 0.3);
+}
+
+.reset-button:hover {
+    background: #856568;
+}
+
+.open-button:disabled {
+    cursor: default;
+    opacity: 0.75;
+}
+
+/* 떠오르는 하트 */
+.hearts {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.heart {
+    position: absolute;
+    bottom: -30px;
+    color: #ef7f8e;
+    font-size: 18px;
+    animation: floatUp 3.5s ease-in forwards;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+
+    15% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-110vh) rotate(18deg);
+        opacity: 0;
+    }
+}
+
+/* 태블릿 이하 */
+@media (max-width: 768px) {
+    .container {
+        padding-top: 22px;
+    }
+
+    .title-area {
+        margin-top: 20px;
+    }
+
+    .card-scene {
+        height: 600px;
+    }
+
+    .envelope {
+        width: 360px;
+        height: 235px;
+        margin-top: 145px;
+    }
+
+    .letter-card {
+        width: 290px;
+        height: 387px;
+        bottom: 34px;
+
+        /* 닫힌 상태 */
+        transform: translateX(-50%) translateY(118px) scale(0.82);
+    }
+
+    .envelope.open .letter-card {
+        /* 열린 상태 */
+        transform: translateX(-50%) translateY(-65px) scale(1);
+    }
+
+    .envelope-flap {
+        width: 360px;
+        height: 136px;
+    }
+
+    .envelope-left {
+        border-top-width: 117px;
+        border-bottom-width: 117px;
+        border-left-width: 180px;
+    }
+
+    .envelope-right {
+        border-top-width: 117px;
+        border-bottom-width: 117px;
+        border-right-width: 180px;
+    }
+
+    .envelope-bottom {
+        border-left-width: 180px;
+        border-right-width: 180px;
+        border-bottom-width: 142px;
+    }
+
+    .open-button {
+        margin-top: 66px;
+    }
+}
+
+/* 모바일 */
+@media (max-width: 480px) {
+    .container {
+        padding: 18px 14px 24px;
+        gap: 10px;
+    }
+
+    .title-area {
+        margin-top: 14px;
+        margin-bottom: 0;
+    }
+
+    .sub-title {
+        font-size: 13px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    .card-scene {
+        width: 100%;
+        height: 560px;
+    }
+
+    .envelope {
+        width: 310px;
+        height: 205px;
+        margin-top: 140px;
+    }
+
+    .envelope-back {
+        border-radius: 12px;
+    }
+
+    .letter-card {
+        width: 260px;
+        height: 347px;
+        bottom: 32px;
+
+        /* 닫힌 상태 */
+        transform: translateX(-50%) translateY(108px) scale(0.82);
+    }
+
+    .envelope.open .letter-card {
+        /* 열린 상태 */
+        transform: translateX(-50%) translateY(-60px) scale(1);
+    }
+
+    .envelope-flap {
+        width: 310px;
+        height: 118px;
+    }
+
+    .envelope-left {
+        border-top-width: 102px;
+        border-bottom-width: 102px;
+        border-left-width: 155px;
+    }
+
+    .envelope-right {
+        border-top-width: 102px;
+        border-bottom-width: 102px;
+        border-right-width: 155px;
+    }
+
+    .envelope-bottom {
+        border-left-width: 155px;
+        border-right-width: 155px;
+        border-bottom-width: 124px;
+    }
+
+    .card-back {
+        padding: 24px 20px;
+    }
+
+    .to {
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+
+    .message {
+        min-height: 230px;
+        font-size: 13.5px;
+        line-height: 1.65;
+    }
+
+    .from {
+        font-size: 13.5px;
+    }
+
+    .open-button {
+        margin-top: 62px;
+        padding: 12px 24px;
+        font-size: 14px;
+    }
+}
+
+/* 아주 작은 화면 */
+@media (max-width: 360px) {
+    h1 {
+        font-size: 24px;
+    }
+
+    .card-scene {
+        height: 535px;
+    }
+
+    .envelope {
+        width: 280px;
+        height: 185px;
+        margin-top: 135px;
+    }
+
+    .letter-card {
+        width: 238px;
+        height: 317px;
+
+        /* 닫힌 상태 */
+        transform: translateX(-50%) translateY(100px) scale(0.82);
+    }
+
+    .envelope.open .letter-card {
+        /* 열린 상태 */
+        transform: translateX(-50%) translateY(-55px) scale(1);
+    }
+
+    .envelope-flap {
+        width: 280px;
+        height: 108px;
+    }
+
+    .envelope-left {
+        border-top-width: 92px;
+        border-bottom-width: 92px;
+        border-left-width: 140px;
+    }
+
+    .envelope-right {
+        border-top-width: 92px;
+        border-bottom-width: 92px;
+        border-right-width: 140px;
+    }
+
+    .envelope-bottom {
+        border-left-width: 140px;
+        border-right-width: 140px;
+        border-bottom-width: 112px;
+    }
+
+    .card-back {
+        padding: 22px 18px;
+    }
+
+    .message {
+        font-size: 12.8px;
+        line-height: 1.6;
+    }
+
+    .open-button {
+        margin-top: 58px;
+    }
+}

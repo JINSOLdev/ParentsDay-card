@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Parents' Day</title>
+    <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+    <main class="container">
+        <section class="title-area">
+            <p class="sub-title">💌 부모님께 도착한 작은 편지</p>
+            <h1>Happy Parents' Day</h1>
+        </section>
+
+        <section class="card-scene">
+            <div class="envelope" id="envelope">
+                <div class="letter-card" id="letterCard">
+                    <div class="card-inner">
+                        <!-- 카드 앞면 -->
+                        <div class="card-face card-front">
+                            <img src="./public/parents_day.png" alt="Happy Parents' Day 카드" class="card-image" />
+                        </div>
+
+                        <!-- 카드 뒷면 -->
+                        <div class="card-face card-back">
+                            <p class="to">부모님께</p>
+                            <p class="message" id="message"></p>
+                            <p class="from" id="fromText">- 아빠, 엄마의 딸 진솔 올림 -</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="envelope-back"></div>
+                <div class="envelope-left"></div>
+                <div class="envelope-right"></div>
+                <div class="envelope-bottom"></div>
+                <div class="envelope-flap"></div>
+            </div>
+
+            <div class="button-container">
+                <button type="button" class="open-button" id="openButton">
+                    편지 열어보기
+                </button>
+                <button type="button" class="reset-button" id="resetButton" style="display: none;">
+                    다시 보기
+                </button>
+            </div>
+        </section>
+
+        <div class="hearts" id="hearts"></div>
+    </main>
+
+    <script src="./script.js"></script>
+</body>
+
+</html>
