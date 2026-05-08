@@ -8,9 +8,6 @@ body {
     font-family: "Pretendard", "Apple SD Gothic Neo", sans-serif;
     background: linear-gradient(180deg, #fff8fa 0%, #ffeef3 100%);
     color: #5f4548;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .container {
@@ -18,20 +15,20 @@ body {
     width: 100%;
     max-width: 600px;
     min-height: 100vh;
-    padding: 24px 16px 40px;
+    margin: 0 auto;
+    padding: 28px 16px 36px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 14px;
     overflow-x: hidden;
     overflow-y: auto;
 }
 
 .title-area {
     text-align: center;
-    margin-top: 16px;
-    margin-bottom: 0;
+    margin: 0;
 }
 
 .sub-title {
@@ -44,15 +41,14 @@ body {
 h1 {
     margin: 0;
     color: #ef7f8e;
-    font-size: clamp(24px, 4vw, 34px);
+    font-size: clamp(25px, 4vw, 34px);
     letter-spacing: 1px;
 }
 
-/* 전체 카드/봉투 무대 */
 .card-scene {
     position: relative;
-    width: min(480px, 92vw);
-    height: 450px;
+    width: min(460px, 92vw);
+    height: 480px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -61,9 +57,9 @@ h1 {
 /* 봉투 전체 */
 .envelope {
     position: relative;
-    width: 340px;
-    height: 210px;
-    margin-top: 55px;
+    width: 320px;
+    height: 200px;
+    margin-top: 58px;
     cursor: pointer;
     perspective: 1200px;
 }
@@ -82,8 +78,8 @@ h1 {
 .letter-card {
     position: absolute;
     left: 50%;
-    bottom: 28px;
-    width: 280px;
+    bottom: 26px;
+    width: 260px;
     height: 330px;
     transform: translateX(-50%) translateY(100px) scale(0.82);
     opacity: 0;
@@ -173,24 +169,24 @@ h1 {
 }
 
 .envelope-left {
-left: 0;
-    border-top: 105px solid transparent;
-    border-bottom: 105px solid transparent;
-border-left: 170px solid #ffc5cf;
+    left: 0;
+    border-top: 100px solid transparent;
+    border-bottom: 100px solid transparent;
+    border-left: 160px solid #ffc5cf;
 }
 
 .envelope-right {
     right: 0;
-    border-top: 105px solid transparent;
-    border-bottom: 105px solid transparent;
-    border-right: 170px solid #ffc5cf;
+    border-top: 100px solid transparent;
+    border-bottom: 100px solid transparent;
+    border-right: 160px solid #ffc5cf;
 }
 
 .envelope-bottom {
     left: 0;
-    border-left: 170px solid transparent;
-    border-right: 170px solid transparent;
-    border-bottom: 125px solid #ffb3bf;
+    border-left: 160px solid transparent;
+    border-right: 160px solid transparent;
+    border-bottom: 120px solid #ffb3bf;
 }
 
 /* 봉투 덮개 */
@@ -198,8 +194,8 @@ border-left: 170px solid #ffc5cf;
     position: absolute;
     top: 0;
     left: 0;
-    width: 340px;
-    height: 120px;
+    width: 320px;
+    height: 116px;
     background: #ff9dad;
     clip-path: polygon(0 0, 100% 0, 50% 100%);
     transform-origin: top;
@@ -217,9 +213,7 @@ border-left: 170px solid #ffc5cf;
 .envelope.open .letter-card {
     opacity: 1;
     z-index: 6;
-
-    /* 기존 -260px은 너무 많이 올라가서 잘림. -70px로 조정 */
-    transform: translateX(-50%) translateY(-35px) scale(1);
+    transform: translateX(-50%) translateY(24px) scale(1);
 }
 
 /* 카드가 올라온 뒤 뒤집힘 */
@@ -227,23 +221,25 @@ border-left: 170px solid #ffc5cf;
     transform: rotateY(180deg);
 }
 
-
 /* 버튼 컨테이너 */
 .button-container {
     display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 36px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 14px;
+    margin-top: 48px;
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-width: 300px;
 }
 
 /* 버튼 */
 .open-button,
 .reset-button {
-    padding: 13px 28px;
+    min-width: 130px;
+    height: 48px;
+    margin: 0;
+    padding: 0 24px;
     border: none;
     border-radius: 999px;
     background: #ef7f8e;
@@ -254,13 +250,19 @@ border-left: 170px solid #ffc5cf;
     box-shadow: 0 10px 22px rgba(239, 127, 142, 0.3);
     transition:
         transform 0.2s ease,
-        background 0.2s ease;
+        background 0.2s ease,
+        opacity 0.2s ease;
 }
 
 .open-button:hover,
 .reset-button:hover {
     transform: translateY(-2px);
     background: #e86f80;
+}
+
+.open-button:disabled {
+    cursor: default;
+    opacity: 0.75;
 }
 
 .reset-button {
@@ -272,9 +274,8 @@ border-left: 170px solid #ffc5cf;
     background: #856568;
 }
 
-.open-button:disabled {
-    cursor: default;
-    opacity: 0.75;
+.hidden {
+    display: none;
 }
 
 /* 떠오르는 하트 */
@@ -309,78 +310,13 @@ border-left: 170px solid #ffc5cf;
     }
 }
 
-/* 태블릿 이하 */
-@media (max-width: 768px) {
-    .container {
-        padding-top: 22px;
-    }
-
-    .title-area {
-        margin-top: 20px;
-    }
-
-    .card-scene {
-        height: 600px;
-    }
-
-    .envelope {
-        width: 360px;
-        height: 235px;
-        margin-top: 145px;
-    }
-
-    .letter-card {
-        width: 290px;
-        height: 387px;
-        bottom: 34px;
-
-        /* 닫힌 상태 */
-        transform: translateX(-50%) translateY(118px) scale(0.82);
-    }
-
-    .envelope.open .letter-card {
-        /* 열린 상태 */
-        transform: translateX(-50%) translateY(-65px) scale(1);
-    }
-
-    .envelope-flap {
-        width: 360px;
-        height: 136px;
-    }
-
-    .envelope-left {
-        border-top-width: 117px;
-        border-bottom-width: 117px;
-        border-left-width: 180px;
-    }
-
-    .envelope-right {
-        border-top-width: 117px;
-        border-bottom-width: 117px;
-        border-right-width: 180px;
-    }
-
-    .envelope-bottom {
-        border-left-width: 180px;
-        border-right-width: 180px;
-        border-bottom-width: 142px;
-    }
-
-    .open-button {
-        margin-top: 66px;
-    }
-}
-
 /* 모바일 */
 @media (max-width: 480px) {
     .container {
-        padding: 18px 14px 24px;
-        gap: 10px;
-    }
-
-    .title-area {
-        margin-top: 14px;
-        margin-bottom: 0;
+        min-height: 100svh;
+        padding: 24px 14px 28px;
+        gap: 12px;
+        justify-content: center;
     }
 
     .sub-title {
@@ -388,74 +324,56 @@ border-left: 170px solid #ffc5cf;
     }
 
     h1 {
-        font-size: 26px;
-    }
-
-    .button-container {
-        max-width: 280px;
-        gap: 8px;
-    }
-
-    .open-button,
-    .reset-button {
-        padding: 11px 20px;
-        font-size: 14px;
+        font-size: 27px;
     }
 
     .card-scene {
         width: 100%;
-        height: 560px;
+        height: 500px;
     }
 
     .envelope {
-        width: 310px;
-        height: 205px;
-        margin-top: 140px;
-    }
-
-    .envelope-back {
-        border-radius: 12px;
+        width: 300px;
+        height: 188px;
+        margin-top: 58px;
     }
 
     .letter-card {
-        width: 260px;
-        height: 347px;
-        bottom: 32px;
-
-        /* 닫힌 상태 */
-        transform: translateX(-50%) translateY(108px) scale(0.82);
+        width: 255px;
+        height: 330px;
+        bottom: 24px;
+        transform: translateX(-50%) translateY(96px) scale(0.82);
     }
 
     .envelope.open .letter-card {
-        /* 열린 상태 */
-        transform: translateX(-50%) translateY(-60px) scale(1);
+        transform: translateX(-50%) translateY(22px) scale(1);
     }
 
     .envelope-flap {
-        width: 310px;
-        height: 118px;
+        width: 300px;
+        height: 110px;
     }
 
     .envelope-left {
-        border-top-width: 102px;
-        border-bottom-width: 102px;
-        border-left-width: 155px;
+        border-top-width: 94px;
+        border-bottom-width: 94px;
+        border-left-width: 150px;
     }
 
     .envelope-right {
-        border-top-width: 102px;
-        border-bottom-width: 102px;
-        border-right-width: 155px;
+        border-top-width: 94px;
+        border-bottom-width: 94px;
+        border-right-width: 150px;
     }
 
     .envelope-bottom {
-        border-left-width: 155px;
-        border-right-width: 155px;
-        border-bottom-width: 124px;
+        border-left-width: 150px;
+        border-right-width: 150px;
+        border-bottom-width: 114px;
     }
 
     .card-back {
-        padding: 24px 20px;
+        padding: 22px 19px;
     }
 
     .to {
@@ -464,18 +382,28 @@ border-left: 170px solid #ffc5cf;
     }
 
     .message {
-        min-height: 230px;
-        font-size: 13.5px;
-        line-height: 1.65;
+        min-height: 180px;
+        font-size: 13.4px;
+        line-height: 1.58;
     }
 
     .from {
-        font-size: 13.5px;
+        margin-top: 22px;
+        font-size: 13px;
     }
 
-    .open-button {
-        margin-top: 62px;
-        padding: 12px 24px;
+    .button-container {
+        margin-top: 46px;
+        gap: 10px;
+        flex-wrap: nowrap;
+    }
+
+    .open-button,
+    .reset-button {
+        min-width: 116px;
+        height: 44px;
+        margin: 0;
+        padding: 0 18px;
         font-size: 14px;
     }
 }
@@ -487,61 +415,72 @@ border-left: 170px solid #ffc5cf;
     }
 
     .card-scene {
-        height: 535px;
+        height: 480px;
     }
 
     .envelope {
         width: 280px;
-        height: 185px;
-        margin-top: 135px;
+        height: 176px;
+        margin-top: 52px;
     }
 
     .letter-card {
         width: 238px;
-        height: 317px;
-
-        /* 닫힌 상태 */
-        transform: translateX(-50%) translateY(100px) scale(0.82);
+        height: 315px;
+        bottom: 22px;
+        transform: translateX(-50%) translateY(90px) scale(0.82);
     }
 
     .envelope.open .letter-card {
-        /* 열린 상태 */
-        transform: translateX(-50%) translateY(-55px) scale(1);
+        transform: translateX(-50%) translateY(18px) scale(1);
     }
 
     .envelope-flap {
         width: 280px;
-        height: 108px;
+        height: 102px;
     }
 
     .envelope-left {
-        border-top-width: 92px;
-        border-bottom-width: 92px;
+        border-top-width: 88px;
+        border-bottom-width: 88px;
         border-left-width: 140px;
     }
 
     .envelope-right {
-        border-top-width: 92px;
-        border-bottom-width: 92px;
+        border-top-width: 88px;
+        border-bottom-width: 88px;
         border-right-width: 140px;
     }
 
     .envelope-bottom {
         border-left-width: 140px;
         border-right-width: 140px;
-        border-bottom-width: 112px;
+        border-bottom-width: 106px;
     }
 
     .card-back {
-        padding: 22px 18px;
+        padding: 20px 17px;
     }
 
     .message {
-        font-size: 12.8px;
-        line-height: 1.6;
+        font-size: 12.6px;
+        line-height: 1.55;
     }
 
-    .open-button {
-        margin-top: 58px;
+    .from {
+        font-size: 12px;
+    }
+
+    .button-container {
+        margin-top: 42px;
+        gap: 8px;
+    }
+
+    .open-button,
+    .reset-button {
+        min-width: 108px;
+        height: 42px;
+        padding: 0 14px;
+        font-size: 13px;
     }
 }

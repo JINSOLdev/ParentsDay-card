@@ -12,51 +12,46 @@ const letterMessage = `쑥스러워 자주 표현하지 못했지만
 앞으로도 오래오래 건강하시고,
 행복한 일들이 더 많았으면 좋겠습니다.
 
-항상 감사하고 사랑합니다 ❤️
-`;
+항상 감사하고 사랑합니다 ❤️`;
 
 let isOpened = false;
 let typingIndex = 0;
+let typingTimer = null;
 
 function openCard() {
   if (isOpened) return;
 
   isOpened = true;
+
   envelope.classList.add("open");
   openButton.textContent = "마음 전달 완료 ♥";
   openButton.disabled = true;
 
-  // 카드가 봉투에서 올라온 뒤 뒤집힘
   setTimeout(() => {
     letterCard.classList.add("flip");
-  }, 1200);
+  }, 1000);
 
-  // 카드가 뒤집힌 뒤 메시지 작성 시작
   setTimeout(() => {
     typeMessage();
     createHearts();
-  }, 2100);
+  }, 1800);
 }
 
 function resetCard() {
-  // 상태 초기화
   isOpened = false;
   typingIndex = 0;
 
-  // 클래스 제거
+  clearTimeout(typingTimer);
+
   envelope.classList.remove("open");
   letterCard.classList.remove("flip");
   fromText.classList.remove("show");
 
-  // 텍스트 초기화
   messageElement.textContent = "";
   openButton.textContent = "편지 열어보기";
   openButton.disabled = false;
 
-  // 리셋 버튼 숨기기
-  resetButton.style.display = "none";
-
-  // 하트 제거
+  resetButton.classList.add("hidden");
   heartsContainer.innerHTML = "";
 }
 
@@ -65,18 +60,17 @@ function typeMessage() {
     messageElement.textContent += letterMessage[typingIndex];
     typingIndex += 1;
 
-    setTimeout(typeMessage, 55);
+    typingTimer = setTimeout(typeMessage, 55);
   } else {
     fromText.classList.add("show");
-    // 모든 글자가 보여진 후 리셋 버튼 표시
-    resetButton.style.display = "inline-block";
+    resetButton.classList.remove("hidden");
   }
 }
 
 function createHearts() {
   const heartCount = 16;
 
-  for (let i = 0; i < heartCount; i++) {
+  for (let i = 0; i < heartCount; i += 1) {
     setTimeout(() => {
       const heart = document.createElement("span");
 
